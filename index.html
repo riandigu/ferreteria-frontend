@@ -5,6 +5,8 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Ferretería Digital RG</title>
 
+<script src="https://sdk.mercadopago.com/js/v2"></script>
+
 <style>
 *{
 margin:0;
@@ -195,7 +197,7 @@ cartDiv.style.display = cartDiv.style.display==="block"?"none":"block";
 }
 
 function addToCart(name,price){
-cart.push({name,price});
+cart.push({nombre:name,precio:price});
 updateCart();
 }
 
@@ -205,8 +207,8 @@ itemsDiv.innerHTML="";
 let total=0;
 
 cart.forEach(item=>{
-itemsDiv.innerHTML+=`<p>${item.name} - $${item.price}</p>`;
-total+=item.price;
+itemsDiv.innerHTML+=`<p>${item.nombre} - $${item.precio}</p>`;
+total+=item.precio;
 });
 
 document.getElementById("total").innerText=total;
@@ -221,7 +223,6 @@ return;
 }
 
 try{
-
 let response = await fetch("https://ferreteria-backend-1-8dmm.onrender.com/crear_preferencia",{
 method:"POST",
 headers:{
@@ -238,6 +239,7 @@ console.log(data);
 return;
 }
 
+// Redirige al pago de Mercado Pago
 window.location.href = data.init_point;
 
 }catch(error){
@@ -251,4 +253,3 @@ alert("Error de conexión con el servidor");
 
 </body>
 </html>
-
