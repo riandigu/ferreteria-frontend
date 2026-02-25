@@ -5,8 +5,6 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Ferretería Digital RG</title>
 
-<script src="https://sdk.mercadopago.com/js/v2"></script>
-
 <style>
 *{
 margin:0;
@@ -249,22 +247,7 @@ alert("Error de conexión con el servidor");
 
 }
 
-let response = await fetch("https://ferreteria-backend-vibq.onrender.com/crear_preferencia",{
-method:"POST",
-headers:{
-"Content-Type":"application/json"
-},
-body:JSON.stringify({items:cart})
-});
-
-let data = await response.json();
-
-window.location.href = data.init_point;
-
-}
-
 </script>
 
 </body>
-
 </html>
