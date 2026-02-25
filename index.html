@@ -216,40 +216,36 @@ document.getElementById("cart-count").innerText=cart.length;
 }
 
 async function checkout(){
+  if(cart.length===0){
+    alert("Carrito vacío");
+    return;
+  }
 
-if(cart.length===0){
-alert("Carrito vacío");
-return;
-}
+  try {
+    let response = await fetch("https://ferreteria-backend-1-8dmm.onrender.com/crear_preferencia", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ items: cart.map(i => ({ nombre: i.name, precio: i.price })) })
+    });
 
-try{
-let response = await fetch("https://ferreteria-backend-1-8dmm.onrender.com/crear_preferencia",{
-method:"POST",
-headers:{
-"Content-Type":"application/json"
-},
-body:JSON.stringify({items:cart})
-});
+    let data = await response.json();
 
-let data = await response.json();
+    if(!data.init_point){
+      alert("Error creando preferencia");
+      console.log(data);
+      return;
+    }
 
-if(!data.init_point){
-alert("Error creando preferencia");
-console.log(data);
-return;
-}
+    window.location.href = data.init_point;
 
-// Redirige al pago de Mercado Pago
-window.location.href = data.init_point;
-
-}catch(error){
-console.error("Error:",error);
-alert("Error de conexión con el servidor");
-}
-
+  } catch(error) {
+    console.error("Error:", error);
+    alert("Error de conexión con el servidor");
+  }
 }
 
 </script>
 
 </body>
 </html>
+
