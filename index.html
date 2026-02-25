@@ -222,6 +222,33 @@ alert("Carrito vacío");
 return;
 }
 
+try{
+
+let response = await fetch("https://ferreteria-backend-vibq.onrender.com/crear_preferencia",{
+method:"POST",
+headers:{
+"Content-Type":"application/json"
+},
+body:JSON.stringify({items:cart})
+});
+
+let data = await response.json();
+
+if(!data.init_point){
+alert("Error creando preferencia");
+console.log(data);
+return;
+}
+
+window.location.href = data.init_point;
+
+}catch(error){
+console.error("Error:",error);
+alert("Error de conexión con el servidor");
+}
+
+}
+
 let response = await fetch("https://ferreteria-backend-vibq.onrender.com/crear_preferencia",{
 method:"POST",
 headers:{
@@ -239,4 +266,5 @@ window.location.href = data.init_point;
 </script>
 
 </body>
+
 </html>
