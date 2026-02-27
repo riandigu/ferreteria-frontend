@@ -237,37 +237,72 @@ target="_blank">
 <script>
 
 let cart=[];
+const shippingCost = 8900;
 
+/* MENU */
 function toggleMenu(){
 document.getElementById("navLinks")
 .classList.toggle("active");
 }
 
+/* CARRITO */
 function toggleCart(){
 let c=document.getElementById("cart");
 c.style.display=c.style.display==="block"?"none":"block";
 }
 
+/* AGREGAR */
 function addToCart(dep,name,price){
 cart.push({dep,name,price});
 updateCart();
 }
 
+/* ELIMINAR PRODUCTO */
+function removeItem(index){
+cart.splice(index,1);
+updateCart();
+}
+
+/* ACTUALIZAR CARRITO */
 function updateCart(){
+
 let div=document.getElementById("cart-items");
 div.innerHTML="";
-let total=0;
 
-cart.forEach(i=>{
-div.innerHTML+=
-`<p>${i.name} - $${i.price}</p>`;
-total+=i.price;
+let subtotal=0;
+
+cart.forEach((item,index)=>{
+
+div.innerHTML+=`
+<p>
+${item.name} - $${item.price}
+<button onclick="removeItem(${index})"
+style="background:red;margin-left:5px;">
+❌
+</button>
+</p>
+`;
+
+subtotal+=item.price;
 });
+
+/* ENVÍO */
+if(cart.length>0){
+div.innerHTML+=`
+<hr>
+<p><b>Envío:</b> $${shippingCost}</p>
+`;
+}
+
+let total = cart.length>0
+? subtotal + shippingCost
+: 0;
 
 document.getElementById("total").innerText=total;
 document.getElementById("cart-count").innerText=cart.length;
 }
 
+/* CHECKOUT */
 async function checkout(){
 
 if(cart.length===0){
@@ -287,6 +322,15 @@ alert("Complete datos envío");
 return;
 }
 
+/* agregamos envío como item real */
+let itemsPago=[...cart];
+
+itemsPago.push({
+dep:"Envio",
+name:"Gastos de envío",
+price:shippingCost
+});
+
 let response=await fetch(
 "https://ferreteria-backend-1-8dmm.onrender.com/crear_preferencia",
 {
@@ -294,7 +338,7 @@ method:"POST",
 headers:{"Content-Type":"application/json"},
 body:JSON.stringify({
 cliente,
-items:cart
+items:itemsPago
 })
 });
 
@@ -306,4 +350,5 @@ window.location.href=data.init_point;
 </script>
 
 </body>
+
 </html>
