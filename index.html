@@ -343,7 +343,25 @@ window.location.href=data.init_point;
 }
 
 </script>
+<script>
+const params = new URLSearchParams(window.location.search);
+const estado = params.get("estado");
 
+if (estado === "success") {
+    alert("✅ Pago aprobado");
+    localStorage.removeItem("carrito");
+}
+
+if (estado === "failure") {
+    alert("❌ Pago cancelado o fallido");
+}
+
+if (estado === "pending") {
+    alert("⏳ Pago pendiente");
+}
+</script>
+</body>
 </body>
 </html>
+
 
