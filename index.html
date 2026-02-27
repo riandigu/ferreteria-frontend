@@ -43,12 +43,12 @@ flex-wrap:wrap;
 gap:15px;
 padding:10px;
 }
+
+/* ✅ TAMAÑO MENU EN PC */
 .menu-item{
-font-size:12px;   /* ← AQUÍ cambias el tamaño */
-padding:8px 12px;
-color:white;
-text-decoration:none;
+font-size:12px;
 }
+
 @media(max-width:768px){
 .menu-item{
 font-size:12px;
@@ -348,6 +348,7 @@ window.location.href=data.init_point;
 }
 
 </script>
+
 <script>
 const params = new URLSearchParams(window.location.search);
 const estado = params.get("estado");
@@ -365,10 +366,6 @@ if (estado === "pending") {
     alert("⏳ Pago pendiente");
 }
 </script>
-</body>
+
 </body>
 </html>
-
-
-
-
